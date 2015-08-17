@@ -23,8 +23,8 @@ public class GameTime : MonoBehaviour {
 	
 	public Color ambLightMax;							// the color of the maximum ( brightest ) ambient light )
 	public Color ambLightMin;							// the color of the minimum ( lightest ) ambient light 
-	
 
+	public float starttime = 0;
 
 	private const float DEGREE_PER_SECOND = 360 / DAY;	// the degree that the sun will move per second
 
@@ -64,8 +64,12 @@ public class GameTime : MonoBehaviour {
 		}
 
 
-		_timeOfDay = 0;	// initialize the time 
+		_timeOfDay = starttime * _dayCycleInSeconds;	// initialize the time 
 		_sunRotation = DEGREE_PER_SECOND * DAY / ( _dayCycleInSeconds );	// initialize the degree the the sun will rotate for one second
+
+		/* Rotate all stored suns*/
+		for(int i = 0; i < sun.Length; i++ ) 
+			sun[i].Rotate ( new Vector3 ( 360 * starttime, 0, 0 ) );
 
 		//setup the lighting for all suns
 		SetupLighting();
@@ -87,6 +91,8 @@ public class GameTime : MonoBehaviour {
 
 		// obtain the time that passed in a day, from 0 - 1
 		float _timeInDay = ( _timeOfDay / _dayCycleInSeconds ) % 1;
+
+		//Debug.Log( _timeInDay * 24 );
 
 		// change the lighting according to the time in a day
 		if( _timeInDay  > sunRise && _timeInDay < Noon ) {
@@ -131,7 +137,16 @@ public class GameTime : MonoBehaviour {
 
 			if( _sunScript[i].giveLight ) {
 
-				sun[i].GetComponent<Light>().intensity = _sunScript[i].minBrightness;
+				float _timeInDay = ( _timeOfDay / _dayCycleInSeconds ) % 1;
+				
+				// change the lighting according to the time in a day
+				if( _timeInDay  > sunRise && _timeInDay < Noon ) {
+					AdjustLighting( true );
+				}
+				else if ( _timeInDay > Noon && _timeInDay < sunSet) {
+					AdjustLighting( false );
+				}
+
 			}
 			else {
 				sun[i].GetComponent<Light>().intensity = 0;

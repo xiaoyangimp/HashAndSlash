@@ -24,18 +24,21 @@ public class TargettingV2 : MonoBehaviour {
 		myTransform = transform;
 		selectedTarget = null;
 		targets = new List<Transform>();
-		
-		AddAllEnemies();
 	}
 
 	// Update is called once per frame
 	void Update () {
 
-		
 		if( Input.GetKeyDown( KeyCode.Tab ) )  
-		{
-			Debug.Log("Test" );
-			if( targets.Count != 0 ) return ;
+		{	
+
+			targets.Clear ();
+			AddAllEnemies();
+
+			Debug.Log( targets.Count );
+			if( targets.Count == 0 ) return ;
+
+			Debug.Log ( targets[0].name );
 
 			SortTargetByDistance();
 			
@@ -45,6 +48,8 @@ public class TargettingV2 : MonoBehaviour {
 				
 			}
 			else {
+				Debug.Log ( selectedTarget.name );
+
 				changeTarget();
 				selectedTarget = targets[ (targets.IndexOf(selectedTarget) + 1 ) % targets.Count ] ;
 				SelectTarget();

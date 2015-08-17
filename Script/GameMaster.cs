@@ -13,15 +13,15 @@ public class GameMaster : MonoBehaviour {
 
 	private GameObject _pc;
 	private PlayerCharacter _pcScript;
+	private CameraMove _mainCameraScript;
 	private Vector3 _playerSpawnPosition;	// the place of the player spawn point
 
 	// Use this for initialization
 	void Start () {
 		GameObject go = GameObject.Find (GameSettings.PLAYER_SPAWN_POINT);
-		_playerSpawnPosition = new Vector3 (573, 3, 632);
+		_playerSpawnPosition = new Vector3 (573, 6, 632);
 
 		if( go == null ) {
-			Debug.Log ( "Can not find Player Spawn Point");
 
 			go = new GameObject( GameSettings.PLAYER_SPAWN_POINT );
 			go.transform.position = _playerSpawnPosition;
@@ -38,6 +38,8 @@ public class GameMaster : MonoBehaviour {
 
 		mainCamera.transform.position = new Vector3(_pc.transform.position.x , _pc.transform.position.y + yOffset, _pc.transform.position.z + zOffset);
 		mainCamera.transform.Rotate(xRotOffset, 0, 0);
+		_mainCameraScript = mainCamera.GetComponent<CameraMove>();
+		_mainCameraScript.target = _pc.transform;
 
 		LoadCharacter();
 	}
