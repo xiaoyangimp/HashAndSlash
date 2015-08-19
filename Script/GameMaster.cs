@@ -19,7 +19,7 @@ public class GameMaster : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		GameObject go = GameObject.Find (GameSettings.PLAYER_SPAWN_POINT);
-		_playerSpawnPosition = new Vector3 (573, 6, 632);
+		_playerSpawnPosition = new Vector3 (570, 6, 630);
 
 		if( go == null ) {
 

@@ -59,8 +59,10 @@ public class AdvancedMove : MonoBehaviour {	// class which only care about the m
 	IEnumerator Start () {
 
 		while(true) {
+
 			switch(_state) {
 			case State.Init:
+				Init ();
 				break;
 			case State.Setup:
 				Setup ();
